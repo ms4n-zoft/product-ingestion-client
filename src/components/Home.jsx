@@ -1,6 +1,6 @@
-import { Search, ArrowRight, AlertCircle, Loader2 } from "lucide-react";
+import { Search, ArrowRight, AlertCircle, ChevronLeft, ChevronRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect } from "react";
 import useProducts from "../hooks/use-products";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -23,26 +23,9 @@ export const Home = () => {
     isLoading,
     error,
     goToNextPage,
+    goToPreviousPage,
   } = useProducts(12);
   const [commandMenuOpen, setCommandMenuOpen] = useState(false);
-  const [allProducts, setAllProducts] = useState([]);
-  const loadMoreRef = useRef(null);
-
-  // Accumulate all products as we load more pages
-  useEffect(() => {
-    if (products.length > 0) {
-      setAllProducts((prev) => {
-        // If we're on page 1, replace all products
-        if (pagination.currentPage === 1) {
-          return products;
-        }
-        // Otherwise, append new products (avoiding duplicates)
-        const existingIds = new Set(prev.map((p) => p._id));
-        const newProducts = products.filter((p) => !existingIds.has(p._id));
-        return [...prev, ...newProducts];
-      });
-    }
-  }, [products, pagination.currentPage]);
 
   // Command menu keyboard shortcut (Cmd+K or Ctrl+K)
   useEffect(() => {
@@ -57,30 +40,6 @@ export const Home = () => {
     return () => document.removeEventListener("keydown", down);
   }, []);
 
-  // Infinite scroll observer
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const first = entries[0];
-        if (first.isIntersecting && pagination.hasNextPage && !isLoading) {
-          goToNextPage();
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    const currentRef = loadMoreRef.current;
-    if (currentRef) {
-      observer.observe(currentRef);
-    }
-
-    return () => {
-      if (currentRef) {
-        observer.unobserve(currentRef);
-      }
-    };
-  }, [pagination.hasNextPage, isLoading, goToNextPage]);
-
   const handleProductClick = (product) => {
     navigate("/review", { state: product });
   };
@@ -93,7 +52,7 @@ export const Home = () => {
         <CommandList>
           <CommandEmpty>No products found.</CommandEmpty>
           <CommandGroup heading="Products">
-            {allProducts.map((product) => (
+            {products.map((product) => (
               <CommandItem
                 key={product._id}
                 onSelect={() => {
@@ -141,7 +100,7 @@ export const Home = () => {
         </div>
 
         {/* Initial Loading State */}
-        {isLoading && pagination.currentPage === 1 && allProducts.length === 0 && (
+        {isLoading && products.length === 0 && (
           <div className="flex items-center justify-center py-12">
             <div className="text-center">
               <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
@@ -164,7 +123,7 @@ export const Home = () => {
         )}
 
         {/* Empty State */}
-        {!isLoading && !error && allProducts.length === 0 && (
+        {!isLoading && !error && products.length === 0 && (
           <div className="text-center py-12">
             <p className="text-muted-foreground text-lg">
               No products available
@@ -173,10 +132,10 @@ export const Home = () => {
         )}
 
         {/* Product Cards */}
-        {!error && allProducts.length > 0 && (
+        {!error && products.length > 0 && (
           <>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-              {allProducts.map((product) => (
+              {products.map((product) => (
                 <Card
                   key={product._id}
                   className="border shadow-none hover:border-primary/50 transition-colors cursor-pointer flex flex-col"
@@ -218,19 +177,33 @@ export const Home = () => {
               ))}
             </div>
 
-            {/* Load More Trigger */}
-            <div ref={loadMoreRef} className="flex justify-center py-8">
-              {isLoading && pagination.currentPage > 1 && (
-                <div className="flex items-center gap-2 text-muted-foreground">
-                  <Loader2 className="w-5 h-5 animate-spin" />
-                  <span className="text-sm">Loading more products...</span>
-                </div>
-              )}
-              {!isLoading && !pagination.hasNextPage && allProducts.length > 0 && (
-                <p className="text-sm text-muted-foreground">
-                  All products loaded ({allProducts.length} total)
-                </p>
-              )}
+            {/* Pagination Controls */}
+            <div className="flex items-center justify-between py-8 border-t">
+              <div className="text-sm text-muted-foreground">
+                Page {pagination.currentPage} of {pagination.totalPages}
+              </div>
+              <div className="flex gap-2">
+                <Button
+                  onClick={goToPreviousPage}
+                  disabled={!pagination.hasPreviousPage || isLoading}
+                  variant="outline"
+                  size="sm"
+                  className="gap-2"
+                >
+                  <ChevronLeft size={16} />
+                  Previous
+                </Button>
+                <Button
+                  onClick={goToNextPage}
+                  disabled={!pagination.hasNextPage || isLoading}
+                  variant="outline"
+                  size="sm"
+                  className="gap-2"
+                >
+                  Next
+                  <ChevronRight size={16} />
+                </Button>
+              </div>
             </div>
           </>
         )}
