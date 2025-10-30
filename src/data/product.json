@@ -1,0 +1,342 @@
+{
+  "fieldsToReview": {
+    "_id": "62cfea81a10437da5c6c65da",
+    "created_on": "2022-06-22T17:16:33.005Z",
+    "is_active": true,
+    "updated_on": "2024-04-23T11:02:48.819Z",
+    "is_verify": false,
+    "verification_raised_on": null,
+    "verified_on": null,
+    "product_name": "Mailchimp",
+    "description": "Mailchimp is a leading cloud-based marketing automation platform and email marketing service provider that has become a staple for businesses looking to enhance their digital marketing efforts.",
+    "website": "https://mailchimp.com/",
+    "overview": "Mailchimp is a leading cloud-based marketing automation platform and email marketing service provider that has become a staple for businesses looking to enhance their digital marketing efforts. Mailchimp's capabilities extend beyond email marketing. The platform offers robust marketing automation features, allowing businesses to automate customer journeys and engage with their audience at critical moments. This includes setting up automated responses based on customer behaviors, such as abandoned cart reminders or welcome emails for new subscribers. Additionally, Mailchimp supports A/B testing, enabling marketers to optimize their campaigns by experimenting with different subject lines and content variations.",
+    "category": ["64e5ebea4558409aac79717f", "64e5ebea4558409aac7971b0"],
+    "company": "Mailchimp",
+    "logo_url": "https://zoftware-logo.s3.ap-south-1.amazonaws.com/1724661707672.webp",
+    "industry": ["64e5e837ad51f2176725fcd9"],
+    "pricing_details_web_url": "https://mailchimp.com/pricing/marketing/",
+    "industry_size": [
+      "Small Businesses (1-99)",
+      "Mid Market (100-500)",
+      "Enterprise (500+)"
+    ],
+    "other_features": [
+      "Activity Dashboard",
+      "Alerts/Notifications",
+      "Archiving & Retention",
+      "Campaign Analytics",
+      "Campaign Management",
+      "Email Marketing",
+      "Email Templates",
+      "Landing Pages/Web Forms",
+      "Lead Capture",
+      "Lead Nurturing",
+      "Marketing Automation",
+      "Multi-Channel Marketing",
+      "Referral Tracking",
+      "Reporting & Statistics",
+      "Reporting/Analytics",
+      "Automated Responses",
+      "Audience Targeting",
+      "A/B Testing",
+      "API"
+    ],
+    "pricing": [
+      {
+        "plan": "Premium",
+        "entity": "User",
+        "amount": "350",
+        "currency": "USD",
+        "period": "Month",
+        "description": [
+          "No additional cost add-on",
+          "Up to 200 journey points",
+          "Reporting & Analytics",
+          "Phone & Priority Support",
+          "Custom-coded Templates",
+          "No additional cost add-on",
+          "10,000 contacts"
+        ],
+        "updated_on": "2024-08-26T10:52:08.478Z",
+        "isPlanFree": false,
+        "_id": "662795580b29aad67ca41205"
+      },
+      {
+        "plan": "Best Value",
+        "entity": "User",
+        "amount": "20",
+        "currency": "USD",
+        "period": "Month",
+        "description": [
+          "No additional cost add-on",
+          "Up to 200 journey points",
+          "24/7 Email & Chat Support",
+          "mo for 500 contacts"
+        ],
+        "updated_on": "2024-08-26T10:53:45.393Z",
+        "isPlanFree": false,
+        "_id": "662795580b29aad67ca41206"
+      },
+      {
+        "plan": "Essentials",
+        "entity": "User",
+        "amount": "13",
+        "currency": "USD",
+        "period": "Month",
+        "description": [
+          "Up to 4 journey points",
+          "Limited",
+          "24/7 Email & Chat Support",
+          "for 500 contact"
+        ],
+        "updated_on": "2024-08-26T10:54:56.980Z",
+        "isPlanFree": false,
+        "_id": "662795580b29aad67ca41207"
+      },
+      {
+        "plan": "Free",
+        "entity": "User",
+        "amount": "0",
+        "currency": "USD",
+        "period": "Month",
+        "description": [],
+        "isPlanFree": true,
+        "_id": "662795580b29aad67ca41208"
+      }
+    ],
+    "company_id": "64cb75e4f97200308cec189d",
+    "features": [
+      "66bb0fbb58c8e12709006fb8",
+      "66bb0fbb58c8e12709006fba",
+      "66bb0fbb58c8e12709006fbf",
+      "66bb0fbb58c8e12709006fc0"
+    ],
+    "supports": ["66bb0fa658c8e12709006fb2", "66bb0fa658c8e12709006fb3"],
+    "__v": 6,
+    "snapshots": [
+      {
+        "name": "mailchimp.webp",
+        "key": "1724671599828.webp",
+        "type": "image/webp",
+        "Location": "https://zoftware-logo.s3.ap-south-1.amazonaws.com/1724671599828.webp",
+        "_id": "66cc667a7a04f8f4551a16cd"
+      },
+      {
+        "name": "mailchimp 1.webp",
+        "key": "1724671602189.webp",
+        "type": "image/webp",
+        "Location": "https://zoftware-logo.s3.ap-south-1.amazonaws.com/1724671602189.webp",
+        "_id": "66cc667a7a04f8f4551a16ce"
+      },
+      {
+        "name": "mailchimp 2.webp",
+        "key": "1724671607994.webp",
+        "type": "image/webp",
+        "Location": "https://zoftware-logo.s3.ap-south-1.amazonaws.com/1724671607994.webp",
+        "_id": "66cc667a7a04f8f4551a16cf"
+      }
+    ],
+    "metaKeys": {
+      "description": "Review of Mailchimp: product details, features, and price. Connect with integrators and compare Mailchimp with similar softwares",
+      "title": "Mailchimp Review, Features, Pricing, Integrators",
+      "h1": "Mailchimp",
+      "header": ""
+    },
+    "weburl": "mailchimp",
+    "integrations": [
+      {
+        "name": "Google Drive",
+        "website": "https://www.google.com/drive/",
+        "logo": "",
+        "_id": "6566fdf6f63078609d6df8af"
+      },
+      {
+        "name": "Microsoft Excel",
+        "website": "https://www.microsoft.com/en-us/microsoft-365/excel",
+        "logo": "",
+        "_id": "6566fdf6f63078609d6df8b0"
+      },
+      {
+        "name": "Slack",
+        "website": "https://slack.com/",
+        "logo": "",
+        "_id": "6566fdf6f63078609d6df8b1"
+      },
+      {
+        "name": "Trello",
+        "website": "https://trello.com/en",
+        "logo": "",
+        "_id": "6566fdf6f63078609d6df8b2"
+      },
+      {
+        "name": "PayPal",
+        "website": "https://www.paypal.com/ng/home",
+        "logo": "",
+        "_id": "6566fdf6f63078609d6df8b3"
+      },
+      {
+        "name": "Asana",
+        "website": "https://asana.com/",
+        "logo": "",
+        "_id": "6566fdf6f63078609d6df8b4"
+      }
+    ],
+    "usp": "Mailchimp's user-friendly interface and comprehensive support resources, including tutorials and a community of experts, make it accessible to businesses of all sizes. The platform offers various pricing plans, including a free tier with limited features, making it an attractive option for startups and small businesses looking to scale their marketing efforts without significant upfront costs.",
+    "support_email": "support@mailchimp.com",
+    "updated_by": "saheed@zoftwarehub.com",
+    "region": "in",
+    "onHome": false,
+    "parent_categories": ["64e5e7db6295fca3e00f3247"],
+    "verification_raised_by": null,
+    "created_by": "odun@zoftwarehub.com",
+    "updatedAt": "2025-09-07T14:22:30.775Z",
+    "ratings": {
+      "overall_rating": 4.177272727272727,
+      "ease_of_use": 4.5,
+      "breadth_of_features": 4.37,
+      "ease_of_implementation": 4.45,
+      "value_for_money": 4.466666666666667,
+      "customer_support": 4.4,
+      "total_reviews": 72422
+    },
+    "onCompare": false,
+    "latest": false,
+    "trending": false,
+    "admin_verified": true,
+    "subscription_plan": "Basic",
+    "verified_by": null,
+    "sub_cat_banner": false,
+    "comparisons": [
+      "631701ef09fb84d1187f7e77",
+      "6399ca3e8d334e65a9589522",
+      "63f738237628399515056992"
+    ],
+    "ai_questions": "<h2><strong>Does Mailchimp platform use AI? And where?&nbsp;</strong></h2><p>Mailchimp, a popular email marketing platform, indeed utilizes artificial intelligence (AI) in various aspects of its services...</p>",
+    "alt_breadth_of_features": [
+      "64252e862c32e4fc15e210f0",
+      "6316ffb709fb84d1187f688b",
+      "62cfea81a10437da5c6c65dd",
+      "62cfea81a10437da5c6c65d7",
+      "636a4980db43da99f64479ac"
+    ],
+    "alt_customer_support": [
+      "63f738237628399515056992",
+      "64c39cade09970f496cd60ba",
+      "637ca87f35f286078abf6f88",
+      "6316ffb509fb84d1187f6825",
+      "63d7f68afd6870059382484f"
+    ],
+    "alt_ease_of_implementation": [
+      "63caa814af70319ec8842b6a",
+      "6316ffc709fb84d1187f6acf",
+      "6385bd80d96ce2b8ae7784f2",
+      "62cfea81a10437da5c6c65dd",
+      "62cfea81a10437da5c6c65e0"
+    ],
+    "alt_ease_of_use": [
+      "6399ca3e8d334e65a9589522",
+      "64c39cade09970f496cd60ba",
+      "63f738237628399515056992",
+      "6316ffb509fb84d1187f6825",
+      "640ca8a4f1478e26e7cc307e"
+    ],
+    "alt_value_for_money": [
+      "637ca87f35f286078abf6f88",
+      "63a034a28a0d9e075a506e24",
+      "6317038a09fb84d1187f85b9",
+      "6316ffb509fb84d1187f6825",
+      "63f738237628399515056992"
+    ],
+    "analyzed_by": {},
+    "badges": [],
+    "case_studies": [],
+    "company_website": "https://mailchimp.com/",
+    "contact": "8003155939",
+    "country_code": "+1",
+    "feature_overview": "Mailchimp is a comprehensive all-in-one marketing platform that provides a suite of tools designed to support businesses in their marketing efforts...",
+    "gcp_availability": "<p><strong>Where in GCC does Mailchimp have offices?</strong></p><p>Not available&nbsp;</p>",
+    "hq_location": "Atlanta, GA, USA",
+    "languages": [
+      "66c5a446c6c6f0649cefdec8",
+      "66c5a446c6c6f0649cefdec9",
+      "66c5a446c6c6f0649cefdede",
+      "66c5a446c6c6f0649cefdedf",
+      "66c5a446c6c6f0649cefdee0",
+      "66c5a446c6c6f0649cefdee2",
+      "66c5a446c6c6f0649cefdee1",
+      "66c5a446c6c6f0649cefded6",
+      "66c5a446c6c6f0649cefded7",
+      "66c5a446c6c6f0649cefdece",
+      "66c5a446c6c6f0649cefdecd"
+    ],
+    "pricing_overview": "Mailchimp offers a range of pricing plans to accommodate different business needs...",
+    "social_links": {
+      "linkedin": "https://www.linkedin.com/company/intuitmailchimp/about/",
+      "instagram": "https://www.instagram.com/mailchimp/",
+      "twitter": "https://x.com/Mailchimp",
+      "facebook": "https://www.facebook.com/mailchimp/"
+    },
+    "tags": [],
+    "tech_stack": [],
+    "videos": [],
+    "web3_questions": "<p><strong>Is Mailchimp a web 3 company?</strong></p><p>No</p>",
+    "year_founded": 2001,
+    "faq": "66828f7d2cefd11f260fff61",
+    "updatedBy": "64e5c1a0c007a046dee48cb5",
+    "zoftware_analysis": "66cc63ac7c64d56a36476d7e",
+    "reviews_strengths": [
+      "Analytics and Reporting: Mailchimp provides detailed insights and reports...",
+      "Customer Support: The platform is recognized for its reliable customer support...",
+      "Free and Flexible Pricing Plans: The availability of a free plan...",
+      "Integration Capabilities: Mailchimp integrates well...",
+      "AI Tools: Users appreciate the AI-driven features...",
+      "Comprehensive Features: The platform offers a broad range of features..."
+    ],
+    "reviews_weakness": [
+      "Data Overages: Users have noted that exceeding contact limits...",
+      "Feature Availability by Plan: Certain advanced features are only available on higher-tier plans...",
+      "Deliverability Issues: A few users have experienced issues with email deliverability...",
+      "Limited Customization: There are occasional reports of limitations in template customization...",
+      "Complexity for Advanced Features: While the platform is user-friendly, some advanced features can be complex...",
+      "Pricing Structure: Some users find Mailchimp's pricing plans to be expensive..."
+    ],
+    "affiliate_link": null,
+    "ai_status": {
+      "fed": true,
+      "fed_at": "2025-09-07T14:22:30.775Z"
+    }
+  },
+  "pendingProducts": [
+    {
+      "id": "62cfea81a10437da5c6c65da",
+      "logo": "https://zoftware-logo.s3.ap-south-1.amazonaws.com/1724661707672.webp",
+      "name": "Mailchimp",
+      "company": "Mailchimp Inc.",
+      "created_on": "2022-06-22",
+      "description": "Cloud-based marketing automation platform for email and campaign management.",
+      "category": ["Marketing", "Automation"],
+      "status": "Pending Review"
+    },
+    {
+      "id": "62cffb9a3d2a37dfbc6c78e2",
+      "logo": "https://zoftware-logo.s3.ap-south-1.amazonaws.com/1724661800124.webp",
+      "name": "Slack",
+      "company": "Slack Technologies",
+      "created_on": "2023-03-18",
+      "description": "Collaboration and messaging tool designed for teams to communicate efficiently.",
+      "category": ["Communication", "Productivity"],
+      "status": "Pending Review"
+    },
+    {
+      "id": "62d00a713a04c8bfab7d91c2",
+      "logo": "https://zoftware-logo.s3.ap-south-1.amazonaws.com/1724661823456.webp",
+      "name": "Canva",
+      "company": "Canva Pty Ltd",
+      "created_on": "2023-07-09",
+      "description": "Online graphic design tool used for creating visuals, presentations, and social media content.",
+      "category": ["Design", "Marketing"],
+      "status": "Pending Review"
+    }
+  ]
+}
