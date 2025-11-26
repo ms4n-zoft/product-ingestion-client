@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import ReviewScreenLayout from "./components/ReviewPage.jsx";
-import { Home } from "./components/Home.jsx";
+import ReviewScreenLayout from "./components/review-page.jsx";
+import { Home } from "./components/home.jsx";
 export default function App() {
   return (
     <Router>

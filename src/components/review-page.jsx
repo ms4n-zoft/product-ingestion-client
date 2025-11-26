@@ -1,5 +1,5 @@
-import ReviewApprovalUI from "./ReviewApprovalUI";
-import ReviewCommandMenu from "./ReviewCommandMenu";
+import ReviewApprovalUI from "./review-approval-ui";
+import ReviewCommandMenu from "./review-command-menu";
 import { useMemo, useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import useProductDetail from "../hooks/use-product-detail";
