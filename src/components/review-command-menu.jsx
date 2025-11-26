@@ -8,7 +8,7 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import { Search, CheckCircle2 } from "lucide-react";
-import Fuse from "fuse.js";
+import useFuzzySearch from "../hooks/use-fuzzy-search";
 
 export default function ReviewCommandMenu({
   open,
@@ -20,31 +20,17 @@ export default function ReviewCommandMenu({
 }) {
   const [search, setSearch] = useState("");
 
-  // Create fuse instance for fuzzy search
-  const fuse = useMemo(() => {
-    return new Fuse(fieldsToReview, {
-      keys: ["label", "key"],
-      threshold: 0.3, // Lower = more strict matching
-      includeScore: true,
-    });
-  }, [fieldsToReview]);
+  const filteredFields = useFuzzySearch(fieldsToReview, search, {
+    keys: ["label", "key"],
+    threshold: 0.3,
+    limit: 50,
+  });
 
-  // Filter fields based on search
-  const filteredFields = useMemo(() => {
-    if (!search.trim()) {
-      return fieldsToReview.slice(0, 50); // Show first 50 if no search
-    }
-
-    const results = fuse.search(search);
-    return results.map(result => result.item).slice(0, 50); // Limit to 50 results
-  }, [search, fuse, fieldsToReview]);
-
-  // Group filtered fields by section
   const groupedResults = useMemo(() => {
     const groups = {};
 
     filteredFields.forEach((field) => {
-      const topLevelKey = field.key.split(/[\.\[]/)[0];
+      const topLevelKey = field.key.split(/[.\[]/)[0];
       const section = groupedFields.find(g => g.key === topLevelKey);
 
       if (section) {
@@ -58,7 +44,6 @@ export default function ReviewCommandMenu({
     return groups;
   }, [filteredFields, groupedFields]);
 
-  // Reset search when dialog closes
   useEffect(() => {
     if (!open) {
       setSearch("");

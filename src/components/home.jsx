@@ -1,7 +1,7 @@
 import { Search, ArrowRight, AlertCircle, ChevronLeft, ChevronRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
 import useProducts from "../hooks/use-products";
+import useCommandMenu from "../hooks/use-command-menu";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -25,20 +25,7 @@ export const Home = () => {
     goToNextPage,
     goToPreviousPage,
   } = useProducts(12);
-  const [commandMenuOpen, setCommandMenuOpen] = useState(false);
-
-  // Command menu keyboard shortcut (Cmd+K or Ctrl+K)
-  useEffect(() => {
-    const down = (e) => {
-      if ((e.key === "k" && (e.metaKey || e.ctrlKey)) || e.key === "/") {
-        e.preventDefault();
-        setCommandMenuOpen((open) => !open);
-      }
-    };
-
-    document.addEventListener("keydown", down);
-    return () => document.removeEventListener("keydown", down);
-  }, []);
+  const [commandMenuOpen, setCommandMenuOpen] = useCommandMenu();
 
   const handleProductClick = (product) => {
     navigate("/review", { state: product });

@@ -14,7 +14,6 @@ const useProducts = (pageSize = 10) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Fetch products for specific page with error handling
   const fetchProducts = useCallback(
     async (page = 1) => {
       setIsLoading(true);
@@ -39,21 +38,18 @@ const useProducts = (pageSize = 10) => {
     [pageSize]
   );
 
-  // Navigate to next page if available
   const goToNextPage = useCallback(() => {
     if (pagination.hasNextPage) {
       fetchProducts(pagination.currentPage + 1);
     }
   }, [pagination, fetchProducts]);
 
-  // Navigate to previous page if available
   const goToPreviousPage = useCallback(() => {
     if (pagination.hasPreviousPage) {
       fetchProducts(pagination.currentPage - 1);
     }
   }, [pagination, fetchProducts]);
 
-  // Jump to specific page
   const goToPage = useCallback(
     (page) => {
       if (page >= 1 && page <= pagination.totalPages) {
@@ -63,7 +59,6 @@ const useProducts = (pageSize = 10) => {
     [pagination.totalPages, fetchProducts]
   );
 
-  // Load initial data on mount
   useEffect(() => {
     fetchProducts(1);
   }, [fetchProducts]);

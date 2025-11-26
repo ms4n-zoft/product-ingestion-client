@@ -19,13 +19,9 @@ const useProductDetail = (slug) => {
       try {
         const data = await fetchProductBySlug(slug);
 
-        // API returns data as an array, get the first product
         if (data.success && Array.isArray(data.data) && data.data.length > 0) {
-          console.log("Product data from API:", data.data[0]);
           setProduct(data.data[0]);
         } else if (data.success && !Array.isArray(data.data) && data.data) {
-          // Fallback for single object response
-          console.log("Product data from API (single):", data.data);
           setProduct(data.data);
         } else {
           setError("Failed to fetch product details");

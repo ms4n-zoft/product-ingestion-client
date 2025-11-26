@@ -2,11 +2,7 @@ import { useEffect, useCallback } from "react";
 
 /**
  * Hook to handle keyboard shortcuts for review workflow
- * @param {Object} options - Configuration options
- * @param {Function} options.onApprove - Callback when Space/Enter is pressed
- * @param {Function} options.onNext - Callback when J or ArrowDown is pressed
- * @param {Function} options.onPrevious - Callback when K or ArrowUp is pressed
- * @param {boolean} options.enabled - Whether shortcuts are enabled
+ * Ignores shortcuts when user is typing in input fields to prevent conflicts
  */
 const useKeyboardShortcuts = ({
   onApprove,
@@ -16,7 +12,6 @@ const useKeyboardShortcuts = ({
 }) => {
   const handleKeyPress = useCallback(
     (event) => {
-      // Ignore if typing in input/textarea or if disabled
       if (
         !enabled ||
         event.target.tagName === "INPUT" ||

@@ -27,14 +27,12 @@ export default function ReviewApprovalUI({
 }) {
   const fieldRefs = useRef({});
 
-  // Scroll to current field when index changes - using "start" to avoid jump issues
   useEffect(() => {
     if (currentFieldIndex !== null && fieldsToReview[currentFieldIndex]) {
       const field = fieldsToReview[currentFieldIndex];
       const element = fieldRefs.current[field.key];
 
       if (element) {
-        // Use "start" alignment so collapsing sections above don't affect scroll position
         element.scrollIntoView({
           behavior: "smooth",
           block: "center",
@@ -43,7 +41,6 @@ export default function ReviewApprovalUI({
     }
   }, [currentFieldIndex, fieldsToReview]);
 
-  // Approve field - mark as reviewed and move to next
   const approveField = (key) => {
     setReviewed((prev) => {
       const updated = prev.includes(key)
@@ -51,7 +48,6 @@ export default function ReviewApprovalUI({
         : [...prev, key];
 
       if (!prev.includes(key)) {
-        // Find next unreviewed field
         const currentIndex = fieldsToReview.findIndex((f) => f.key === key);
         const nextField = fieldsToReview
           .slice(currentIndex + 1)
@@ -69,16 +65,13 @@ export default function ReviewApprovalUI({
     });
   };
 
-  // Render field value based on type
   const renderFieldValue = (value, fieldKey) => {
-    // Special handling for review strengths and weaknesses - show as bullet points
     const isReviewStrengthsOrWeakness =
       fieldKey?.includes("review_strengths") ||
       fieldKey?.includes("reviews_strengths") ||
       fieldKey?.includes("reviews_weakness") ||
       fieldKey?.includes("review_weakness");
 
-    // Case 1: Array of objects
     if (Array.isArray(value)) {
       if (value.length === 0) {
         return (
@@ -91,7 +84,6 @@ export default function ReviewApprovalUI({
       );
 
       if (isArrayOfObjects) {
-        // Special rendering for pricing plans, features, social links, and options
         const isPricingPlans = fieldKey?.includes("pricing_plans");
         const isFeatures = fieldKey?.includes("features");
         const isSocialLinks =
@@ -120,7 +112,6 @@ export default function ReviewApprovalUI({
                     )}
                   </CardHeader>
                   <CardContent className="space-y-3">
-                    {/* Price */}
                     {plan.amount && (
                       <div className="flex items-baseline gap-2">
                         <span className="text-3xl font-bold text-foreground">
@@ -139,14 +130,12 @@ export default function ReviewApprovalUI({
                       </div>
                     )}
 
-                    {/* Free badge */}
                     {plan.is_free && (
                       <Badge variant="default" className="bg-emerald-600">
                         Free
                       </Badge>
                     )}
 
-                    {/* Description */}
                     {plan.description && Array.isArray(plan.description) && (
                       <ul className="space-y-2 text-sm">
                         {plan.description.map((item, i) => (
@@ -160,7 +149,6 @@ export default function ReviewApprovalUI({
                       </ul>
                     )}
 
-                    {/* Other fields */}
                     {Object.entries(plan).map(([k, val]) => {
                       if (
                         [
@@ -279,7 +267,6 @@ export default function ReviewApprovalUI({
           );
         }
 
-        // Default rendering for other arrays of objects
         return (
           <div className="space-y-3">
             {value.map((obj, idx) => (
@@ -287,15 +274,12 @@ export default function ReviewApprovalUI({
                 <CardContent className="pt-4">
                   {Object.entries(obj)
                     .filter(([k, val]) => {
-                      // Skip empty/null values
                       if (val === null || val === undefined || val === "")
                         return false;
-                      // Skip logo field if it's empty or just a dash
                       if (k === "logo" && (!val || val === "—")) return false;
                       return true;
                     })
                     .map(([k, val]) => {
-                      // Format label - capitalize normally, but make URL all caps
                       let label = k.replace(/_/g, " ");
                       if (label.toLowerCase() === "url") {
                         label = "URL";
@@ -335,9 +319,7 @@ export default function ReviewApprovalUI({
           </div>
         );
       } else {
-        // Array of primitives
         if (isReviewStrengthsOrWeakness) {
-          // Show as bullet points for review strengths/weaknesses
           return (
             <ul className="list-disc pl-5 space-y-1.5 text-sm">
               {value.map((item, i) => (
@@ -349,7 +331,6 @@ export default function ReviewApprovalUI({
           );
         }
 
-        // Default: show as badges
         return (
           <div className="flex flex-wrap gap-2">
             {value.map((item, i) => (
@@ -362,7 +343,6 @@ export default function ReviewApprovalUI({
       }
     }
 
-    // Case 2: Object (non-array)
     if (typeof value === "object" && value !== null) {
       return (
         <pre className="whitespace-pre-wrap text-sm bg-muted border rounded-lg p-4 overflow-x-auto max-h-96">
@@ -371,9 +351,7 @@ export default function ReviewApprovalUI({
       );
     }
 
-    // Case 3: Primitives (string, number, boolean, null)
     if (typeof value === "string") {
-      // Check if this is HTML content (for software_analysis fields)
       const isHTML =
         value.includes("<p>") ||
         value.includes("<ul>") ||
@@ -382,7 +360,6 @@ export default function ReviewApprovalUI({
       const isSoftwareAnalysis = fieldKey?.includes("software_analysis");
 
       if (isHTML && isSoftwareAnalysis) {
-        // Render HTML content
         return (
           <div
             className="text-sm leading-relaxed prose prose-sm max-w-none
@@ -393,7 +370,6 @@ export default function ReviewApprovalUI({
         );
       }
 
-      // Long text
       if (value.length > 200) {
         return (
           <p className="text-sm leading-relaxed whitespace-pre-wrap break-words">
@@ -406,7 +382,6 @@ export default function ReviewApprovalUI({
     return <p className="text-sm font-medium">{value?.toString?.() ?? "—"}</p>;
   };
 
-  // Calculate section statistics
   const sectionStats = useMemo(() => {
     const stats = {};
 
@@ -426,7 +401,6 @@ export default function ReviewApprovalUI({
     return stats;
   }, [groupedFields, reviewed]);
 
-  // Determine which sections should be open by default (sections with current field)
   const currentSection = useMemo(() => {
     if (currentFieldIndex === null || !fieldsToReview[currentFieldIndex])
       return null;
@@ -435,24 +409,21 @@ export default function ReviewApprovalUI({
     return topLevelKey;
   }, [currentFieldIndex, fieldsToReview]);
 
-  // Track which sections are open
   const [openSections, setOpenSections] = useState(() =>
     groupedFields.map((section) => section.key)
   );
 
-  // Ensure current section is always open
   useEffect(() => {
     if (currentSection && !openSections.includes(currentSection)) {
       setOpenSections((prev) => [...prev, currentSection]);
     }
   }, [currentSection]);
 
-  // Update open sections when groupedFields changes (on initial load)
+
   useEffect(() => {
     setOpenSections(groupedFields.map((section) => section.key));
   }, [groupedFields.length]);
 
-  // Auto-collapse sections when all fields are approved
   useEffect(() => {
     const completedSections = groupedFields
       .filter((section) => {
@@ -470,7 +441,6 @@ export default function ReviewApprovalUI({
     }
   }, [reviewed, groupedFields]);
 
-  // Render individual field card
   const renderFieldCard = (field, index, isOnlyFieldInSection = false) => {
     const isReviewed = reviewed.includes(field.key);
     const isCurrent = currentFieldIndex === index;
@@ -489,7 +459,6 @@ export default function ReviewApprovalUI({
           !isCurrent && !isReviewed && "border-border"
         )}
       >
-        {/* Header with Approve Button - only show if NOT the only field in section */}
         {!isOnlyFieldInSection && (
           <ReviewCardHeader>
             <div className="flex items-start justify-between gap-4">
@@ -538,7 +507,6 @@ export default function ReviewApprovalUI({
           </ReviewCardHeader>
         )}
 
-        {/* For single-field sections, show status badges at top */}
         {isOnlyFieldInSection && (
           <div className="p-3 pb-2">
             {isCurrent && !isReviewed && (
@@ -555,7 +523,6 @@ export default function ReviewApprovalUI({
           </div>
         )}
 
-        {/* Field Value */}
         <ReviewCardContent
           className={
             isOnlyFieldInSection && !isCurrent && !isReviewed ? "pt-3" : ""
@@ -564,7 +531,6 @@ export default function ReviewApprovalUI({
           {renderFieldValue(field.value, field.key)}
         </ReviewCardContent>
 
-        {/* For single-field sections, show approve button at bottom-right */}
         {isOnlyFieldInSection && (
           <div className="px-3 pb-3 flex justify-end">
             <Button
