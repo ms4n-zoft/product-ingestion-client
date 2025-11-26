@@ -1,4 +1,4 @@
-export const isEmpty = (value) => {
+export const isEmpty = (value: any): boolean => {
   if (value === null || value === undefined) return true;
   if (typeof value === "string" && value.trim() === "") return true;
   if (Array.isArray(value) && value.length === 0) return true;
@@ -6,8 +6,20 @@ export const isEmpty = (value) => {
   return false;
 };
 
-export const flattenObject = (obj, parentKey = "") => {
-  const fields = [];
+export interface Field {
+  key: string;
+  label: string;
+  value: any;
+}
+
+export interface FieldGroup {
+  key: string;
+  name: string;
+  fields: Field[];
+}
+
+export const flattenObject = (obj: Record<string, any>, parentKey: string = ""): Field[] => {
+  const fields: Field[] = [];
 
   Object.entries(obj).forEach(([key, value]) => {
     const fullKey = parentKey ? `${parentKey}.${key}` : key;
@@ -83,7 +95,7 @@ export const flattenObject = (obj, parentKey = "") => {
                   value: subValue,
                 });
               } else if (typeof subValue === "object" && subValue !== null) {
-                fields.push(...flattenObject(subValue, subFullKey));
+                fields.push(...flattenObject(subValue as Record<string, any>, subFullKey));
               } else {
                 fields.push({
                   key: subFullKey,
@@ -113,7 +125,7 @@ export const flattenObject = (obj, parentKey = "") => {
     }
 
     if (typeof value === "object") {
-      fields.push(...flattenObject(value, fullKey));
+      fields.push(...flattenObject(value as Record<string, any>, fullKey));
       return;
     }
 
@@ -134,9 +146,9 @@ export const flattenObject = (obj, parentKey = "") => {
   return fields;
 };
 
-export const groupFieldsBySection = (fields) => {
-  const groups = {};
-  const groupOrder = [];
+export const groupFieldsBySection = (fields: Field[]): FieldGroup[] => {
+  const groups: Record<string, FieldGroup> = {};
+  const groupOrder: string[] = [];
 
   fields.forEach((field) => {
     const topLevelKey = field.key.split(/[.\[]/)[0];
@@ -159,3 +171,6 @@ export const groupFieldsBySection = (fields) => {
 
   return groupOrder.map((key) => groups[key]);
 };
+
+export const flattenFields = flattenObject;
+export const groupFields = groupFieldsBySection;

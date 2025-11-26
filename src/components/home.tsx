@@ -6,7 +6,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
-  Command,
   CommandDialog,
   CommandEmpty,
   CommandGroup,
@@ -14,6 +13,7 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
+import { Product } from "@/types";
 
 export const Home = () => {
   const navigate = useNavigate();
@@ -27,7 +27,7 @@ export const Home = () => {
   } = useProducts(12);
   const [commandMenuOpen, setCommandMenuOpen] = useCommandMenu();
 
-  const handleProductClick = (product) => {
+  const handleProductClick = (product: Product) => {
     navigate("/review", { state: product });
   };
 
@@ -51,7 +51,7 @@ export const Home = () => {
                 <div className="flex-1">
                   <div className="font-medium">{product.product_name}</div>
                   <div className="text-sm text-muted-foreground">
-                    {product.company_name}
+                    {product.company}
                   </div>
                 </div>
                 <ArrowRight className="w-4 h-4 text-muted-foreground" />
@@ -134,7 +134,7 @@ export const Home = () => {
                         {product.product_name}
                       </h2>
                       <p className="text-sm text-muted-foreground">
-                        {product.company_name}
+                        {product.company}
                       </p>
                     </div>
 

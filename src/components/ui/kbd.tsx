@@ -1,9 +1,10 @@
 import { cn } from "@/lib/utils"
+import * as React from "react"
 
 function Kbd({
   className,
   ...props
-}) {
+}: React.HTMLAttributes<HTMLElement>) {
   return (
     <kbd
       data-slot="kbd"
@@ -13,20 +14,22 @@ function Kbd({
         "[[data-slot=tooltip-content]_&]:bg-background/20 [[data-slot=tooltip-content]_&]:text-background dark:[[data-slot=tooltip-content]_&]:bg-background/10",
         className
       )}
-      {...props} />
-  );
+      {...props}
+    />
+  )
 }
 
 function KbdGroup({
   className,
   ...props
-}) {
+}: React.HTMLAttributes<HTMLElement>) {
   return (
     <kbd
       data-slot="kbd-group"
       className={cn("inline-flex items-center gap-1", className)}
-      {...props} />
-  );
+      {...props}
+    />
+  )
 }
 
 export { Kbd, KbdGroup }

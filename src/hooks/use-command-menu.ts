@@ -1,14 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, Dispatch, SetStateAction } from "react";
 
 /**
  * Hook to manage command menu state and keyboard shortcuts
  * Handles Cmd+K, Ctrl+K, and / shortcuts
  */
-export default function useCommandMenu() {
+export default function useCommandMenu(): [boolean, Dispatch<SetStateAction<boolean>>] {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const handleKeyDown = (e) => {
+    const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.key === "k" && (e.metaKey || e.ctrlKey)) || e.key === "/") {
         e.preventDefault();
         setOpen((prev) => !prev);

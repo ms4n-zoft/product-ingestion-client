@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState, useMemo } from "react";
+import { useRef, useEffect, useState, useMemo, Dispatch, SetStateAction } from "react";
 import { CheckCircle2, Circle, BadgeCheck } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -16,6 +16,16 @@ import {
   AccordionContent,
 } from "@/components/ui/accordion";
 import { cn } from "@/lib/utils";
+import { Field, FieldGroup } from "@/lib/field-utils";
+
+interface ReviewApprovalUIProps {
+  reviewed: string[];
+  fieldsToReview: Field[];
+  groupedFields: FieldGroup[];
+  setReviewed: Dispatch<SetStateAction<string[]>>;
+  currentFieldIndex: number | null;
+  setCurrentFieldIndex: Dispatch<SetStateAction<number | null>>;
+}
 
 export default function ReviewApprovalUI({
   reviewed,
@@ -24,8 +34,8 @@ export default function ReviewApprovalUI({
   setReviewed,
   currentFieldIndex,
   setCurrentFieldIndex,
-}) {
-  const fieldRefs = useRef({});
+}: ReviewApprovalUIProps) {
+  const fieldRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
   useEffect(() => {
     if (currentFieldIndex !== null && fieldsToReview[currentFieldIndex]) {
@@ -41,7 +51,7 @@ export default function ReviewApprovalUI({
     }
   }, [currentFieldIndex, fieldsToReview]);
 
-  const approveField = (key) => {
+  const approveField = (key: string) => {
     setReviewed((prev) => {
       const updated = prev.includes(key)
         ? prev.filter((k) => k !== key)
@@ -65,7 +75,7 @@ export default function ReviewApprovalUI({
     });
   };
 
-  const renderFieldValue = (value, fieldKey) => {
+  const renderFieldValue = (value: any, fieldKey: string) => {
     const isReviewStrengthsOrWeakness =
       fieldKey?.includes("review_strengths") ||
       fieldKey?.includes("reviews_strengths") ||
@@ -96,7 +106,7 @@ export default function ReviewApprovalUI({
         if (isPricingPlans) {
           return (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {value.map((plan, idx) => (
+              {value.map((plan: any, idx: number) => (
                 <Card
                   key={idx}
                   className="border-2 shadow-none hover:border-primary/50 transition-colors"
@@ -138,7 +148,7 @@ export default function ReviewApprovalUI({
 
                     {plan.description && Array.isArray(plan.description) && (
                       <ul className="space-y-2 text-sm">
-                        {plan.description.map((item, i) => (
+                        {plan.description.map((item: string, i: number) => (
                           <li key={i} className="flex items-start gap-2">
                             <CheckCircle2 className="w-4 h-4 text-emerald-600 mt-0.5 flex-shrink-0" />
                             <span className="text-muted-foreground">
@@ -184,7 +194,7 @@ export default function ReviewApprovalUI({
         if (isFeatures) {
           return (
             <div className="space-y-2">
-              {value.map((feature, idx) => (
+              {value.map((feature: any, idx: number) => (
                 <Card key={idx} className="border shadow-none">
                   <CardContent className="pt-4 pb-4">
                     <div className="flex items-start gap-3">
@@ -210,7 +220,7 @@ export default function ReviewApprovalUI({
         if (isSocialLinks) {
           return (
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-              {value.map((link, idx) => (
+              {value.map((link: any, idx: number) => (
                 <div key={idx} className="border rounded-lg p-3 bg-card">
                   <div className="space-y-1.5">
                     <p className="font-semibold text-sm">{link.platform}</p>
@@ -232,7 +242,7 @@ export default function ReviewApprovalUI({
         if (isDeploymentOptions || isSupportOptions) {
           return (
             <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-              {value.map((option, idx) => (
+              {value.map((option: any, idx: number) => (
                 <div key={idx} className="border rounded-lg p-2 bg-card">
                   <p className="font-medium text-xs">
                     {option.type || option.name}
@@ -246,7 +256,7 @@ export default function ReviewApprovalUI({
         if (isIntegrations) {
           return (
             <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-              {value.map((integration, idx) => (
+              {value.map((integration: any, idx: number) => (
                 <div key={idx} className="border rounded-lg p-2 bg-card">
                   <div className="space-y-0.5">
                     <p className="font-semibold text-xs">{integration.name}</p>
@@ -269,7 +279,7 @@ export default function ReviewApprovalUI({
 
         return (
           <div className="space-y-3">
-            {value.map((obj, idx) => (
+            {value.map((obj: any, idx: number) => (
               <Card key={idx} className="border-muted shadow-none">
                 <CardContent className="pt-4">
                   {Object.entries(obj)
@@ -298,7 +308,7 @@ export default function ReviewApprovalUI({
                           <span className="text-muted-foreground flex-1">
                             {Array.isArray(val) ? (
                               <ul className="list-disc pl-5 space-y-1">
-                                {val.map((item, i) => (
+                                {val.map((item: any, i: number) => (
                                   <li key={i}>{item?.toString?.() ?? "—"}</li>
                                 ))}
                               </ul>
@@ -322,7 +332,7 @@ export default function ReviewApprovalUI({
         if (isReviewStrengthsOrWeakness) {
           return (
             <ul className="list-disc pl-5 space-y-1.5 text-sm">
-              {value.map((item, i) => (
+              {value.map((item: any, i: number) => (
                 <li key={i} className="text-muted-foreground">
                   {item?.toString?.() ?? "—"}
                 </li>
@@ -333,7 +343,7 @@ export default function ReviewApprovalUI({
 
         return (
           <div className="flex flex-wrap gap-2">
-            {value.map((item, i) => (
+            {value.map((item: any, i: number) => (
               <Badge key={i} variant="secondary">
                 {item?.toString?.() ?? "—"}
               </Badge>
@@ -383,7 +393,7 @@ export default function ReviewApprovalUI({
   };
 
   const sectionStats = useMemo(() => {
-    const stats = {};
+    const stats: Record<string, { reviewed: number; total: number; progress: number }> = {};
 
     groupedFields.forEach((section) => {
       const reviewedCount = section.fields.filter((field) =>
@@ -405,11 +415,11 @@ export default function ReviewApprovalUI({
     if (currentFieldIndex === null || !fieldsToReview[currentFieldIndex])
       return null;
     const currentField = fieldsToReview[currentFieldIndex];
-    const topLevelKey = currentField.key.split(/[\.\[]/)[0];
+    const topLevelKey = currentField.key.split(/[.\[]/)[0];
     return topLevelKey;
   }, [currentFieldIndex, fieldsToReview]);
 
-  const [openSections, setOpenSections] = useState(() =>
+  const [openSections, setOpenSections] = useState<string[]>(() =>
     groupedFields.map((section) => section.key)
   );
 
@@ -441,14 +451,14 @@ export default function ReviewApprovalUI({
     }
   }, [reviewed, groupedFields]);
 
-  const renderFieldCard = (field, index, isOnlyFieldInSection = false) => {
+  const renderFieldCard = (field: Field, index: number, isOnlyFieldInSection: boolean = false) => {
     const isReviewed = reviewed.includes(field.key);
     const isCurrent = currentFieldIndex === index;
 
     return (
       <ReviewCard
         key={field.key}
-        ref={(el) => (fieldRefs.current[field.key] = el)}
+        ref={(el: HTMLDivElement | null) => { if (el) fieldRefs.current[field.key] = el }}
         onClick={() => setCurrentFieldIndex(index)}
         className={cn(
           "transition-all duration-200 cursor-pointer",
@@ -568,7 +578,7 @@ export default function ReviewApprovalUI({
           <Accordion
             type="multiple"
             value={openSections}
-            onValueChange={setOpenSections}
+            onValueChange={(value) => setOpenSections(value as string[])}
             className="space-y-4"
           >
             {groupedFields.map((section) => {

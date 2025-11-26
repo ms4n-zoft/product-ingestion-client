@@ -1,14 +1,24 @@
 import { useMemo } from "react";
-import Fuse from "fuse.js";
+import Fuse, { IFuseOptions } from "fuse.js";
+
+interface UseFuzzySearchOptions<T> extends IFuseOptions<T> {
+  keys?: string[];
+  threshold?: number;
+  limit?: number;
+}
 
 /**
  * Reusable hook for fuzzy searching with Fuse.js
- * @param {Array} items - Items to search through
- * @param {string} query - Search query
- * @param {Object} options - Fuse.js configuration options
- * @returns {Array} Filtered and limited results
+ * @param items - Items to search through
+ * @param query - Search query
+ * @param options - Fuse.js configuration options
+ * @returns Filtered and limited results
  */
-export default function useFuzzySearch(items, query, options = {}) {
+export default function useFuzzySearch<T>(
+  items: T[],
+  query: string,
+  options: UseFuzzySearchOptions<T> = {}
+): T[] {
   const {
     keys = [],
     threshold = 0.3,
@@ -31,7 +41,7 @@ export default function useFuzzySearch(items, query, options = {}) {
     }
 
     const searchResults = fuse.search(query);
-    return searchResults.map(result => result.item).slice(0, limit);
+    return searchResults.map((result) => result.item).slice(0, limit);
   }, [query, fuse, items, limit]);
 
   return results;

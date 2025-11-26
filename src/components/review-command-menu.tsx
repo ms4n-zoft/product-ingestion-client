@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, Dispatch, SetStateAction } from "react";
 import {
   CommandDialog,
   CommandEmpty,
@@ -9,6 +9,16 @@ import {
 } from "@/components/ui/command";
 import { Search, CheckCircle2 } from "lucide-react";
 import useFuzzySearch from "../hooks/use-fuzzy-search";
+import { Field, FieldGroup } from "@/lib/field-utils";
+
+interface ReviewCommandMenuProps {
+  open: boolean;
+  onOpenChange: Dispatch<SetStateAction<boolean>>;
+  fieldsToReview: Field[];
+  groupedFields: FieldGroup[];
+  reviewed: string[];
+  onFieldSelect: (index: number) => void;
+}
 
 export default function ReviewCommandMenu({
   open,
@@ -17,7 +27,7 @@ export default function ReviewCommandMenu({
   groupedFields,
   reviewed,
   onFieldSelect,
-}) {
+}: ReviewCommandMenuProps) {
   const [search, setSearch] = useState("");
 
   const filteredFields = useFuzzySearch(fieldsToReview, search, {
@@ -27,10 +37,10 @@ export default function ReviewCommandMenu({
   });
 
   const groupedResults = useMemo(() => {
-    const groups = {};
+    const groups: Record<string, Field[]> = {};
 
     filteredFields.forEach((field) => {
-      const topLevelKey = field.key.split(/[.\[]/)[0];
+      const topLevelKey = field.key.split(/[.\\[]/)[0];
       const section = groupedFields.find(g => g.key === topLevelKey);
 
       if (section) {

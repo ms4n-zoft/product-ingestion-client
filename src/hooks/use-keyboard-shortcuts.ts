@@ -1,5 +1,12 @@
 import { useEffect, useCallback } from "react";
 
+interface UseKeyboardShortcutsProps {
+  onApprove?: () => void;
+  onNext?: () => void;
+  onPrevious?: () => void;
+  enabled?: boolean;
+}
+
 /**
  * Hook to handle keyboard shortcuts for review workflow
  * Ignores shortcuts when user is typing in input fields to prevent conflicts
@@ -9,14 +16,15 @@ const useKeyboardShortcuts = ({
   onNext,
   onPrevious,
   enabled = true,
-}) => {
+}: UseKeyboardShortcutsProps): null => {
   const handleKeyPress = useCallback(
-    (event) => {
+    (event: KeyboardEvent) => {
+      const target = event.target as HTMLElement;
       if (
         !enabled ||
-        event.target.tagName === "INPUT" ||
-        event.target.tagName === "TEXTAREA" ||
-        event.target.isContentEditable
+        target.tagName === "INPUT" ||
+        target.tagName === "TEXTAREA" ||
+        target.isContentEditable
       ) {
         return;
       }

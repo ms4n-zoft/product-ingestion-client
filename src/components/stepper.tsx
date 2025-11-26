@@ -1,4 +1,8 @@
-export default function Stepper({ currentStep }) {
+interface StepperProps {
+  currentStep: number;
+}
+
+export default function Stepper({ currentStep }: StepperProps) {
   const steps = [1, 2, 3];
 
   return (
