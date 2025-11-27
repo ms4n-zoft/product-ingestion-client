@@ -7,23 +7,44 @@ import { flattenFields, groupFields } from "@/lib/field-utils";
 import useKeyboardShortcuts from "@/hooks/use-keyboard-shortcuts";
 import ReviewApprovalUI from "./review-approval-ui";
 import ReviewCommandMenu from "./review-command-menu";
+import MissingFieldsPanel from "./missing-fields-panel";
 import { Product } from "@/types";
+import { fetchProductById } from "@/services/products-api";
 
 export default function ReviewScreenLayout() {
   const location = useLocation();
   const navigate = useNavigate();
-  const product = location.state as Product;
+  const minimalProduct = location.state as Product;
 
+  const [product, setProduct] = useState<Product | null>(null);
+  const [isLoadingProduct, setIsLoadingProduct] = useState(true);
   const [reviewed, setReviewed] = useState<string[]>([]);
   const [currentFieldIndex, setCurrentFieldIndex] = useState<number | null>(0);
   const [commandMenuOpen, setCommandMenuOpen] = useState(false);
 
-  // If no product in state, redirect home
+  // Fetch full product data when component mounts
   useEffect(() => {
-    if (!product) {
-      navigate("/");
-    }
-  }, [product, navigate]);
+    const loadFullProduct = async () => {
+      if (!minimalProduct?._id) {
+        navigate("/");
+        return;
+      }
+
+      try {
+        setIsLoadingProduct(true);
+        const fullProduct = await fetchProductById(minimalProduct._id);
+        setProduct(fullProduct);
+      } catch (error) {
+        console.error("Error loading full product:", error);
+        // Fallback to minimal product if fetch fails
+        setProduct(minimalProduct);
+      } finally {
+        setIsLoadingProduct(false);
+      }
+    };
+
+    loadFullProduct();
+  }, [minimalProduct, navigate]);
 
   const fieldsToReview = useMemo(() => {
     if (!product) return [];
@@ -67,6 +88,18 @@ export default function ReviewScreenLayout() {
     onPrevious: handlePrevious,
     enabled: !commandMenuOpen,
   });
+
+  // Show loading state while fetching full product
+  if (isLoadingProduct) {
+    return (
+      <div className="flex items-center justify-center h-screen bg-background">
+        <div className="text-center">
+          <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+          <p className="text-muted-foreground mt-4">Loading product details...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (!product) return null;
 
@@ -119,16 +152,24 @@ export default function ReviewScreenLayout() {
         </div>
       </div>
 
-      {/* Main Content */}
-      <div className="flex-1 overflow-hidden">
-        <ReviewApprovalUI
-          reviewed={reviewed}
-          fieldsToReview={fieldsToReview}
-          groupedFields={groupedFields}
-          setReviewed={setReviewed}
-          currentFieldIndex={currentFieldIndex}
-          setCurrentFieldIndex={setCurrentFieldIndex}
-        />
+      {/* Main Content - 60/40 Split */}
+      <div className="flex-1 overflow-hidden flex">
+        {/* Left Side - Review UI (60%) */}
+        <div className="w-[60%] border-r h-full overflow-hidden">
+          <ReviewApprovalUI
+            reviewed={reviewed}
+            fieldsToReview={fieldsToReview}
+            groupedFields={groupedFields}
+            setReviewed={setReviewed}
+            currentFieldIndex={currentFieldIndex}
+            setCurrentFieldIndex={setCurrentFieldIndex}
+          />
+        </div>
+
+        {/* Right Side - Missing Fields (40%) */}
+        <div className="w-[40%] h-full overflow-hidden">
+          <MissingFieldsPanel product={product} />
+        </div>
       </div>
 
       <ReviewCommandMenu
