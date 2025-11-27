@@ -7,10 +7,25 @@ export interface Pagination {
   hasPreviousPage: boolean;
 }
 
+export type CompletionQuality = "high" | "medium" | "low";
+
+export interface CompletionQualityInfo {
+  level: CompletionQuality;
+  label: string;
+  percentage: number;
+}
+
+export interface CompletionStats {
+  high: number; // products with completion_percentage > 50
+  medium: number; // products with completion_percentage 35-50
+  low: number; // products with completion_percentage < 35
+}
+
 export interface ApiResponse<T> {
   success: boolean;
   data: T;
   pagination?: Pagination;
+  completionStats?: CompletionStats;
   message?: string;
 }
 
@@ -72,20 +87,26 @@ export interface AIStatus {
 
 export interface Product {
   _id: string;
+  completion_percentage: number;
   created_on: string;
   is_active: boolean;
   updated_on: string;
   is_verify: boolean;
   verification_raised_on: string | null;
   verified_on: string | null;
+  generated_at?: string | null; // Timestamp when the product was generated
   product_name: string;
-  description: string;
+  product_slug?: string;
+  description?: string;
+  short_description?: string; // For minimal API response
   website: string;
   overview: string;
   category: string[];
   company: string;
+  company_name?: string; // For minimal API response
   logo_url: string;
   industry: string[];
+  parent_category?: string; // For minimal API response
   pricing_details_web_url: string;
   industry_size: string[];
   other_features: string[];

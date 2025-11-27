@@ -1,11 +1,17 @@
 import apiClient from "./api-client";
 import { Product } from "@/types";
 
+export type SortOrder = "latest" | "oldest";
+
 // Optimized for product listing pages and UI cards
-export const fetchMinimalProducts = async (page: number = 1, pageSize: number = 10): Promise<Product[]> => {
+export const fetchMinimalProducts = async (
+  page: number = 1,
+  pageSize: number = 10,
+  sortBy: SortOrder = "latest"
+): Promise<Product[]> => {
   try {
     const response = await apiClient.get("/products/minimal", {
-      params: { page, pageSize },
+      params: { page, pageSize, sortBy },
     });
     return response.data;
   } catch (error) {
@@ -37,7 +43,10 @@ export const fetchProductBySlug = async (slug: string): Promise<Product> => {
 };
 
 // Full product data with complete snapshot object
-export const fetchFullProducts = async (page: number = 1, pageSize: number = 10): Promise<Product[]> => {
+export const fetchFullProducts = async (
+  page: number = 1,
+  pageSize: number = 10
+): Promise<Product[]> => {
   try {
     const response = await apiClient.get("/products", {
       params: { page, pageSize },
