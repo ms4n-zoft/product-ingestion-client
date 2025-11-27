@@ -1,15 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { fetchMinimalProducts } from "../services/products-api";
-import { Product } from "@/types";
-
-interface Pagination {
-  currentPage: number;
-  pageSize: number;
-  totalItems: number;
-  totalPages: number;
-  hasNextPage: boolean;
-  hasPreviousPage: boolean;
-}
+import { Product, Pagination, ApiResponse } from "@/types";
 
 interface UseProductsResult {
   products: Product[];
@@ -41,9 +32,10 @@ const useProducts = (pageSize: number = 10): UseProductsResult => {
       setError(null);
 
       try {
-        const data = await fetchMinimalProducts(page, pageSize);
+        const response = await fetchMinimalProducts(page, pageSize);
+        const data = response as unknown as ApiResponse<Product[]>;
 
-        if ((data as any).success) {
+        if (data.success) {
            // Assuming the API response structure matches what was inferred or seen in JS
            // If fetchMinimalProducts returns the data directly (as per my previous edit), I might need to adjust.
            // Wait, in products-api.ts I returned response.data.
@@ -54,13 +46,16 @@ const useProducts = (pageSize: number = 10): UseProductsResult => {
            // I should update products-api.ts return type to reflect this wrapper if needed, or cast here.
            // For now I'll cast to any to access properties, but ideally I should define an ApiResponse type.
            // I'll define ApiResponse in types/index.ts later or locally.
-          setProducts((data as any).data);
-          setPagination((data as any).pagination);
+          setProducts(data.data);
+          if (data.pagination) {
+            setPagination(data.pagination);
+          }
         } else {
           setError("Failed to fetch products");
         }
-      } catch (err: any) {
-        setError(err.message || "An error occurred while fetching products");
+      } catch (err: unknown) {
+        const errorMessage = err instanceof Error ? err.message : "An error occurred while fetching products";
+        setError(errorMessage);
         console.error("useProducts error:", err);
       } finally {
         setIsLoading(false);

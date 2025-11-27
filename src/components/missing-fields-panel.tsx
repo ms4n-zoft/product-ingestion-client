@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { AlertCircle, CheckCircle2 } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import {
@@ -21,7 +21,6 @@ export default function MissingFieldsPanel({ product }: MissingFieldsPanelProps)
   const groupedMissingFields = useMemo(() => groupMissingFields(missingFields), [missingFields]);
   const completionPercentage = useMemo(() => calculateCompletionPercentage(product), [product]);
 
-  const categoryCount = Object.keys(groupedMissingFields).length;
   const totalMissingCount = missingFields.length;
 
   return (

@@ -159,17 +159,17 @@ export const ProductSnapshotSchema = z.object({
   support_options: z.array(SupportOptionSchema).default([]),
 
   // Pricing Information
-  pricing: PricingInfoSchema.default({}),
+  pricing: PricingInfoSchema.default({ pricing_plans: [] }),
   pricing_overview: z.string().optional().nullable(),
 
   // FAQ & Implementation Details
-  faq: ImplementationFAQSchema.default({}),
+  faq: ImplementationFAQSchema.default({ compliance_standards: [] }),
 
   // Company Information
-  company_info: CompanyInfoSchema.default({}),
+  company_info: CompanyInfoSchema.default({ product_offerings: [] }),
 
   // Reviews & Ratings
-  reviews: ReviewSummarySchema.default({}),
+  reviews: ReviewSummarySchema.default({ strengths: [], weaknesses: [], review_sources: [] }),
 
   // Additional Information
   languages_supported: z.array(z.string()).default([]),

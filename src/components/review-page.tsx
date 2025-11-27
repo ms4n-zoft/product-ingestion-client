@@ -48,13 +48,13 @@ export default function ReviewScreenLayout() {
 
   const fieldsToReview = useMemo(() => {
     if (!product) return [];
-    return flattenFields(product);
+    return flattenFields(product as unknown as Record<string, unknown>);
   }, [product]);
 
   const groupedFields = useMemo(() => {
     if (!product) return [];
     return groupFields(fieldsToReview);
-  }, [fieldsToReview]);
+  }, [fieldsToReview, product]);
 
   const handleApprove = () => {
     if (currentFieldIndex !== null && fieldsToReview[currentFieldIndex]) {

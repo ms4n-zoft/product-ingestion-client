@@ -1,4 +1,4 @@
-export const isEmpty = (value: any): boolean => {
+export const isEmpty = (value: unknown): boolean => {
   if (value === null || value === undefined) return true;
   if (typeof value === "string" && value.trim() === "") return true;
   if (Array.isArray(value) && value.length === 0) return true;
@@ -9,7 +9,7 @@ export const isEmpty = (value: any): boolean => {
 export interface Field {
   key: string;
   label: string;
-  value: any;
+  value: unknown;
 }
 
 export interface FieldGroup {
@@ -18,7 +18,7 @@ export interface FieldGroup {
   fields: Field[];
 }
 
-export const flattenObject = (obj: Record<string, any>, parentKey: string = ""): Field[] => {
+export const flattenObject = (obj: Record<string, unknown>, parentKey: string = ""): Field[] => {
   const fields: Field[] = [];
 
   Object.entries(obj).forEach(([key, value]) => {
@@ -28,11 +28,11 @@ export const flattenObject = (obj: Record<string, any>, parentKey: string = ""):
       return;
     }
 
-    if (!parentKey && obj.pricing) {
-      if (key === "pricing_overview" && obj.pricing.overview) {
+    if (!parentKey && (obj.pricing as any)) {
+      if (key === "pricing_overview" && (obj.pricing as any).overview) {
         return;
       }
-      if (key === "pricing_details_web_url" && obj.pricing.pricing_url) {
+      if (key === "pricing_details_web_url" && (obj.pricing as any).pricing_url) {
         return;
       }
     }
@@ -95,7 +95,7 @@ export const flattenObject = (obj: Record<string, any>, parentKey: string = ""):
                   value: subValue,
                 });
               } else if (typeof subValue === "object" && subValue !== null) {
-                fields.push(...flattenObject(subValue as Record<string, any>, subFullKey));
+                fields.push(...flattenObject(subValue as Record<string, unknown>, subFullKey));
               } else {
                 fields.push({
                   key: subFullKey,
@@ -125,7 +125,7 @@ export const flattenObject = (obj: Record<string, any>, parentKey: string = ""):
     }
 
     if (typeof value === "object") {
-      fields.push(...flattenObject(value as Record<string, any>, fullKey));
+      fields.push(...flattenObject(value as Record<string, unknown>, fullKey));
       return;
     }
 
@@ -151,7 +151,7 @@ export const groupFieldsBySection = (fields: Field[]): FieldGroup[] => {
   const groupOrder: string[] = [];
 
   fields.forEach((field) => {
-    const topLevelKey = field.key.split(/[.\[]/)[0];
+    const topLevelKey = field.key.split(/[.[]/)[0];
 
     const sectionName = topLevelKey
       .replace(/_/g, " ")

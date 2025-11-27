@@ -26,6 +26,8 @@ export default function useFuzzySearch<T>(
     ...fuseOptions
   } = options;
 
+  const fuseOptionsJson = JSON.stringify(fuseOptions);
+
   const fuse = useMemo(() => {
     return new Fuse(items, {
       keys,
@@ -33,7 +35,7 @@ export default function useFuzzySearch<T>(
       includeScore: true,
       ...fuseOptions,
     });
-  }, [items, keys, threshold, JSON.stringify(fuseOptions)]);
+  }, [items, keys, threshold, fuseOptionsJson]);
 
   const results = useMemo(() => {
     if (!query.trim()) {

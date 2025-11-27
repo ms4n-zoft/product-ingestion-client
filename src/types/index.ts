@@ -1,3 +1,19 @@
+export interface Pagination {
+  currentPage: number;
+  pageSize: number;
+  totalItems: number;
+  totalPages: number;
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
+}
+
+export interface ApiResponse<T> {
+  success: boolean;
+  data: T;
+  pagination?: Pagination;
+  message?: string;
+}
+
 export interface Pricing {
   _id: string;
   plan: string;
@@ -106,9 +122,9 @@ export interface Product {
   alt_ease_of_implementation: string[];
   alt_ease_of_use: string[];
   alt_value_for_money: string[];
-  analyzed_by: Record<string, any>; // TODO: Define specific type if known
+  analyzed_by: Record<string, unknown>; // TODO: Define specific type if known
   badges: string[];
-  case_studies: any[]; // TODO: Define specific type if known
+  case_studies: unknown[]; // TODO: Define specific type if known
   company_website: string;
   contact: string;
   country_code: string;
@@ -119,8 +135,8 @@ export interface Product {
   pricing_overview: string;
   social_links: SocialLinks;
   tags: string[];
-  tech_stack: any[]; // TODO: Define specific type if known
-  videos: any[]; // TODO: Define specific type if known
+  tech_stack: unknown[]; // TODO: Define specific type if known
+  videos: unknown[]; // TODO: Define specific type if known
   web3_questions: string;
   year_founded: number;
   faq: string;

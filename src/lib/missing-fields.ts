@@ -66,7 +66,7 @@ function collectFieldPaths(
 /**
  * Get value at a nested path in an object
  */
-function getValueAtPath(obj: any, path: string): any {
+function getValueAtPath(obj: any, path: string): unknown {
   const keys = path.split(".");
   let value = obj;
   
@@ -83,7 +83,7 @@ function getValueAtPath(obj: any, path: string): any {
 /**
  * Check if a value is considered "missing" or "empty"
  */
-function isMissingValue(value: any, type: string): boolean {
+function isMissingValue(value: unknown, type: string): boolean {
   if (value === null || value === undefined) return true;
   
   if (type === "string") {
@@ -106,7 +106,7 @@ function isMissingValue(value: any, type: string): boolean {
 /**
  * Detect missing fields in a product by comparing against the schema
  */
-export function detectMissingFields(product: any): MissingField[] {
+export function detectMissingFields(product: unknown): MissingField[] {
   const allFields = collectFieldPaths(ProductSnapshotSchema);
   const missingFields: MissingField[] = [];
 
@@ -144,7 +144,7 @@ export function groupMissingFields(missingFields: MissingField[]): Record<string
 /**
  * Calculate completion percentage based on missing fields
  */
-export function calculateCompletionPercentage(product: any): number {
+export function calculateCompletionPercentage(product: unknown): number {
   const allFields = collectFieldPaths(ProductSnapshotSchema);
   const missingFields = detectMissingFields(product);
   

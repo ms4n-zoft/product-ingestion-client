@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { fetchProductBySlug } from "../services/products-api";
-import { Product } from "@/types";
+import { Product, ApiResponse } from "@/types";
 
 interface UseProductDetailResult {
   product: Product | null;
@@ -24,18 +24,25 @@ const useProductDetail = (slug: string | undefined): UseProductDetailResult => {
       setError(null);
 
       try {
-        const data = await fetchProductBySlug(slug);
+        const response = await fetchProductBySlug(slug);
+        const data = response as unknown as ApiResponse<Product[] | Product>;
 
         // Same assumption about response structure
-        if ((data as any).success && Array.isArray((data as any).data) && (data as any).data.length > 0) {
-          setProduct((data as any).data[0]);
-        } else if ((data as any).success && !Array.isArray((data as any).data) && (data as any).data) {
-          setProduct((data as any).data);
+        if (data.success) {
+          if (Array.isArray(data.data) && data.data.length > 0) {
+            setProduct(data.data[0]);
+          } else if (!Array.isArray(data.data) && data.data) {
+            setProduct(data.data as Product);
+          } else {
+             // Handle case where data is empty array or null but success is true
+             setError("Product not found");
+          }
         } else {
           setError("Failed to fetch product details");
         }
-      } catch (err: any) {
-        setError(err.message || "An error occurred while fetching product");
+      } catch (err: unknown) {
+        const errorMessage = err instanceof Error ? err.message : "An error occurred while fetching product";
+        setError(errorMessage);
         console.error("useProductDetail error:", err);
       } finally {
         setIsLoading(false);

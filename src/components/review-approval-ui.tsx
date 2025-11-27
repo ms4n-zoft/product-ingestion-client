@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/accordion";
 import { cn } from "@/lib/utils";
 import { Field, FieldGroup } from "@/lib/field-utils";
+import { PricingPlan, Feature, SocialProfile, Integration, DeploymentOption, SupportOption } from "@/schemas/product-schema";
 
 interface ReviewApprovalUIProps {
   reviewed: string[];
@@ -75,7 +76,7 @@ export default function ReviewApprovalUI({
     });
   };
 
-  const renderFieldValue = (value: any, fieldKey: string) => {
+  const renderFieldValue = (value: unknown, fieldKey: string) => {
     const isReviewStrengthsOrWeakness =
       fieldKey?.includes("review_strengths") ||
       fieldKey?.includes("reviews_strengths") ||
@@ -106,7 +107,7 @@ export default function ReviewApprovalUI({
         if (isPricingPlans) {
           return (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {value.map((plan: any, idx: number) => (
+              {(value as PricingPlan[]).map((plan, idx) => (
                 <Card
                   key={idx}
                   className="border-2 shadow-none hover:border-primary/50 transition-colors"
@@ -194,7 +195,7 @@ export default function ReviewApprovalUI({
         if (isFeatures) {
           return (
             <div className="space-y-2">
-              {value.map((feature: any, idx: number) => (
+              {(value as Feature[]).map((feature, idx) => (
                 <Card key={idx} className="border shadow-none">
                   <CardContent className="pt-4 pb-4">
                     <div className="flex items-start gap-3">
@@ -220,7 +221,7 @@ export default function ReviewApprovalUI({
         if (isSocialLinks) {
           return (
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-              {value.map((link: any, idx: number) => (
+              {(value as SocialProfile[]).map((link, idx) => (
                 <div key={idx} className="border rounded-lg p-3 bg-card">
                   <div className="space-y-1.5">
                     <p className="font-semibold text-sm">{link.platform}</p>
@@ -242,10 +243,10 @@ export default function ReviewApprovalUI({
         if (isDeploymentOptions || isSupportOptions) {
           return (
             <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-              {value.map((option: any, idx: number) => (
+              {(value as (DeploymentOption | SupportOption)[]).map((option, idx) => (
                 <div key={idx} className="border rounded-lg p-2 bg-card">
                   <p className="font-medium text-xs">
-                    {option.type || option.name}
+                    {option.type || (option as any).name}
                   </p>
                 </div>
               ))}
@@ -256,7 +257,7 @@ export default function ReviewApprovalUI({
         if (isIntegrations) {
           return (
             <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-              {value.map((integration: any, idx: number) => (
+              {(value as Integration[]).map((integration, idx) => (
                 <div key={idx} className="border rounded-lg p-2 bg-card">
                   <div className="space-y-0.5">
                     <p className="font-semibold text-xs">{integration.name}</p>
@@ -279,7 +280,7 @@ export default function ReviewApprovalUI({
 
         return (
           <div className="space-y-3">
-            {value.map((obj: any, idx: number) => (
+            {(value as Record<string, unknown>[]).map((obj, idx) => (
               <Card key={idx} className="border-muted shadow-none">
                 <CardContent className="pt-4">
                   {Object.entries(obj)
@@ -308,8 +309,8 @@ export default function ReviewApprovalUI({
                           <span className="text-muted-foreground flex-1">
                             {Array.isArray(val) ? (
                               <ul className="list-disc pl-5 space-y-1">
-                                {val.map((item: any, i: number) => (
-                                  <li key={i}>{item?.toString?.() ?? "—"}</li>
+                                {(val as unknown[]).map((item, i) => (
+                                  <li key={i}>{String(item ?? "—")}</li>
                                 ))}
                               </ul>
                             ) : typeof val === "object" && val !== null ? (
@@ -332,9 +333,9 @@ export default function ReviewApprovalUI({
         if (isReviewStrengthsOrWeakness) {
           return (
             <ul className="list-disc pl-5 space-y-1.5 text-sm">
-              {value.map((item: any, i: number) => (
+              {(value as unknown[]).map((item, i) => (
                 <li key={i} className="text-muted-foreground">
-                  {item?.toString?.() ?? "—"}
+                  {String(item ?? "—")}
                 </li>
               ))}
             </ul>
@@ -343,9 +344,9 @@ export default function ReviewApprovalUI({
 
         return (
           <div className="flex flex-wrap gap-2">
-            {value.map((item: any, i: number) => (
+            {(value as unknown[]).map((item, i) => (
               <Badge key={i} variant="secondary">
-                {item?.toString?.() ?? "—"}
+                {String(item ?? "—")}
               </Badge>
             ))}
           </div>
@@ -415,7 +416,7 @@ export default function ReviewApprovalUI({
     if (currentFieldIndex === null || !fieldsToReview[currentFieldIndex])
       return null;
     const currentField = fieldsToReview[currentFieldIndex];
-    const topLevelKey = currentField.key.split(/[.\[]/)[0];
+    const topLevelKey = currentField.key.split(/[.[]/)[0];
     return topLevelKey;
   }, [currentFieldIndex, fieldsToReview]);
 
@@ -427,12 +428,12 @@ export default function ReviewApprovalUI({
     if (currentSection && !openSections.includes(currentSection)) {
       setOpenSections((prev) => [...prev, currentSection]);
     }
-  }, [currentSection]);
+  }, [currentSection, openSections]);
 
 
   useEffect(() => {
     setOpenSections(groupedFields.map((section) => section.key));
-  }, [groupedFields.length]);
+  }, [groupedFields]);
 
   useEffect(() => {
     const completedSections = groupedFields
